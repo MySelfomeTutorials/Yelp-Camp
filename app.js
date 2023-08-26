@@ -13,6 +13,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
+const mongoSanitize = require('express-mongo-sanitize');
 
 const ExpressError = require('./utils/ExpressError');
 
@@ -37,6 +38,13 @@ app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+// middlewares
+app.use(
+	mongoSanitize({
+		replaceWith: '_',
+	})
+);
+
 app.use(morgan('dev')); 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
@@ -60,9 +68,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.get('/', async (req, res) => {
-	res.render('home');
-});
+
 
 app.use((req, res, next) => {
 	res.locals.currentUser = req.user;
@@ -70,7 +76,9 @@ app.use((req, res, next) => {
 	res.locals.error = req.flash('error');
 	next();
 });
-
+app.get('/', async (req, res) => {
+	res.render('home');
+});
 app.use('/', userRoutes);
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/reviews', reviewRoutes);
