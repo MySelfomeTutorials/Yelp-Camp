@@ -2,6 +2,8 @@
 
 Yelp Camp is a full-stack web application that allows users to browse and review campgrounds. Users can sign up, log in, and interact with the website by adding new campgrounds, leaving reviews, and rating existing campgrounds. This project is part of Colt Steele's web development course.
 
+![1693116794470](image/README/1693116794470.png)
+
 ### [Live Link :https://yelp-camp-zz8g.onrender.com/](https://yelp-camp-zz8g.onrender.com/)
 
 ## Features
